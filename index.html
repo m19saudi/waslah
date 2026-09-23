@@ -5,13 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#075743">
 <meta name="description" content="وصلة — مشاركة الملفات بين أجهزتك بسرعة وأمان">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📂</text></svg>">
-<title>وصلة — مشاركة الملفات</title>
 
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📂</text></svg>">
+
+<title>وصلة — مشاركة الملفات</title>
 
 <style>
 :root{
@@ -406,7 +409,8 @@ button{
   text-align:center
 }
 
-.qrbox canvas{
+.qrbox canvas,
+.qrbox img{
   max-width:100%;
   height:auto
 }
@@ -765,6 +769,61 @@ button{
   border-radius:12px
 }
 
+.optionBox{
+  display:grid;
+  gap:8px;
+  margin-top:10px
+}
+
+.option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:13px;
+  padding:11px 13px;
+  cursor:pointer
+}
+
+.option:hover{
+  border-color:#9cc2ad;
+  background:#f7fbf8
+}
+
+.option input{
+  width:auto
+}
+
+.option strong{
+  display:block;
+  font-size:12px
+}
+
+.option small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px
+}
+
+.expiryBadge{
+  display:inline-block;
+  margin-top:6px;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:10px;
+  background:#eef6f0;
+  color:var(--green);
+  border:1px solid #d6e6da
+}
+
+.expiryBadge.permanent{
+  background:#eef1ff;
+  color:#4557a5;
+  border-color:#d8ddff
+}
+
 footer{
   padding:24px 0 35px;
   text-align:center;
@@ -882,12 +941,10 @@ footer{
     <button id="accountBtn" onclick="openAccount()">تسجيل الدخول</button>
   </div>
 
-  <div class="badge">روابط مشاركة لمدة 24 ساعة</div>
+  <div class="badge">ملفات مؤقتة أو دائمة</div>
 
 </header>
 
-
-<!-- HOME -->
 
 <section id="homeSection">
 
@@ -949,8 +1006,8 @@ footer{
 
       <div class="limits">
         <span>حد الملف: 5 MB</span>
-        <span>صلاحية الرابط: 24 ساعة</span>
-        <span>بدون Storage</span>
+        <span>الافتراضي: حذف بعد 24 ساعة</span>
+        <span>يمكن حفظه دائماً</span>
       </div>
 
     </label>
@@ -1010,8 +1067,8 @@ footer{
         </div>
 
         <div class="notice">
-          الرابط يصبح غير متاح بعد 24 ساعة، لكن الملف نفسه لا يتم حذفه تلقائياً.
-          يمكنك حذفه يدوياً من مركز الملفات.
+          رابط QR يستمر بالعمل ما دام الملف موجوداً.
+          الملفات العادية تُحذف بعد 24 ساعة، ويمكن تحويلها إلى ملفات دائمة من مركز الملفات.
         </div>
 
       </div>
@@ -1023,8 +1080,6 @@ footer{
 </section>
 
 
-<!-- FILE CENTER -->
-
 <section id="centerSection" class="panel center">
 
   <div class="centerHead">
@@ -1034,7 +1089,7 @@ footer{
       <h2>مركز الملفات</h2>
 
       <p id="centerSubtitle">
-        ملفاتك المحفوظة في حسابك
+        جميع الملفات المشتركة في هذا الموقع
       </p>
 
     </div>
@@ -1089,8 +1144,6 @@ footer{
 </section>
 
 
-<!-- SHARED FILE -->
-
 <section id="sharedSection" class="panel fileView">
 
   <div class="eyebrow">
@@ -1130,7 +1183,7 @@ footer{
 
   <div class="footerline"></div>
 
-  وصلة — مشاركة ملفات مؤقتة بطريقة بسيطة وسريعة
+  وصلة — مشاركة ملفات بطريقة بسيطة وسريعة
 
 </footer>
 
@@ -1167,7 +1220,6 @@ import {
 import {
   getDatabase,
   ref,
-  set,
   get,
   update,
   remove,
@@ -1300,7 +1352,11 @@ function expiresAt(){
 
 function remaining(timestamp){
 
-  const difference = timestamp - Date.now();
+  if(!timestamp){
+    return "دائم";
+  }
+
+  const difference = Number(timestamp) - Date.now();
 
   if(difference <= 0){
     return "منتهي";
@@ -1411,8 +1467,8 @@ function updateAccountUI(){
     button.textContent = "حساب مؤقت";
 
     $("accountInfo").innerHTML =
-      "أنت تستخدم حساباً مؤقتاً لهذا الجهاز. " +
-      "أنشئ حساباً بالبريد الإلكتروني للوصول إلى ملفاتك من أجهزة أخرى.";
+      "أنت تستخدم حساباً مؤقتاً. " +
+      "مركز الملفات مشترك بين جميع الأجهزة والمستخدمين.";
 
   }else{
 
@@ -1430,12 +1486,12 @@ function showAuthModal(){
 
   $("modal").innerHTML = `
 
-    <h3>حفظ ملفاتك بين الأجهزة</h3>
+    <h3>حسابك في وصلة</h3>
 
     <p>
       يمكنك استخدام الحساب المؤقت للمشاركة السريعة،
-      أو إنشاء حساب بالبريد الإلكتروني حتى تتمكن من الوصول
-      إلى ملفاتك من أجهزتك الأخرى.
+      أو إنشاء حساب بالبريد الإلكتروني إذا رغبت.
+      مركز الملفات نفسه مشترك بين جميع الأجهزة.
     </p>
 
     <div class="field">
@@ -1504,8 +1560,8 @@ function showAccountModal(){
     <h3>حسابي</h3>
 
     <p>
-      ملفاتك مرتبطة بحسابك ويمكن الوصول إليها
-      من أي جهاز بعد تسجيل الدخول.
+      مركز الملفات مشترك بين جميع الأجهزة.
+      الحساب هنا يستخدم فقط للمصادقة على العمليات.
     </p>
 
     <div class="accountInfo">
@@ -1725,6 +1781,65 @@ window.triggerUpload = triggerUpload;
 
 
 /* =========================================================
+   CLEANUP EXPIRED FILES
+========================================================= */
+
+async function cleanupExpiredFiles(snapshotData){
+
+  if(!snapshotData){
+    return;
+  }
+
+  const now = Date.now();
+
+  const deletions = {};
+
+  for(const [id,file] of Object.entries(snapshotData)){
+
+    if(!file){
+      continue;
+    }
+
+    const permanent =
+      file.permanent === true ||
+      file.permanent === "true";
+
+    const expires =
+      Number(file.expiresAt || 0);
+
+    if(
+      !permanent &&
+      expires > 0 &&
+      expires <= now
+    ){
+
+      deletions[`files/${id}`] = null;
+
+    }
+
+  }
+
+  if(!Object.keys(deletions).length){
+    return;
+  }
+
+  try{
+
+    await update(ref(db),deletions);
+
+  }catch(error){
+
+    console.error(
+      "Expired file cleanup failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
    REALTIME DATABASE
 ========================================================= */
 
@@ -1735,24 +1850,44 @@ function subscribeFiles(){
     unsubscribeFiles = null;
   }
 
-  if(!currentUser){
-    return;
-  }
-
   const filesRef =
-    ref(db, `files/${currentUser.uid}`);
+    ref(db,"files");
 
   unsubscribeFiles = onValue(
     filesRef,
-    snapshot => {
+    async snapshot => {
 
       const data = snapshot.val() || {};
+
+      /*
+       * Remove expired temporary files.
+       * Permanent files are ignored.
+       */
+      await cleanupExpiredFiles(data);
+
+      const now = Date.now();
 
       files = Object.entries(data)
         .map(([id,value]) => ({
           id,
           ...value
         }))
+        .filter(file => {
+
+          const permanent =
+            file.permanent === true ||
+            file.permanent === "true";
+
+          const expires =
+            Number(file.expiresAt || 0);
+
+          if(permanent){
+            return true;
+          }
+
+          return !expires || expires > now;
+
+        })
         .sort(
           (a,b) =>
             Number(b.createdAt || 0) -
@@ -1780,9 +1915,26 @@ function subscribeFiles(){
    FILE CENTER
 ========================================================= */
 
+function isPermanent(file){
+
+  return (
+    file?.permanent === true ||
+    file?.permanent === "true"
+  );
+
+}
+
+
 function isExpired(file){
 
-  return Number(file.expiresAt || 0) <= Date.now();
+  if(isPermanent(file)){
+    return false;
+  }
+
+  const expires =
+    Number(file?.expiresAt || 0);
+
+  return expires > 0 && expires <= Date.now();
 
 }
 
@@ -1822,6 +1974,37 @@ function matchesFilter(file){
 }
 
 
+function expiryLabel(file){
+
+  if(isPermanent(file)){
+
+    return `
+      <span class="expiryBadge permanent">
+        دائم
+      </span>
+    `;
+
+  }
+
+  if(isExpired(file)){
+
+    return `
+      <span class="expiryBadge">
+        منتهي
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="expiryBadge">
+      ${remaining(file.expiresAt)}
+    </span>
+  `;
+
+}
+
+
 function renderFiles(){
 
   const grid = $("fileGrid");
@@ -1857,7 +2040,7 @@ function renderFiles(){
           □
         </div>
 
-        لا توجد ملفات مطابقة حالياً
+        لا توجد ملفات حالياً
 
       </div>
 
@@ -1897,8 +2080,10 @@ function renderFiles(){
         <small>
           ${fmtSize(file.size)}
           •
-          ${isExpired(file) ? "منتهي" : remaining(file.expiresAt)}
+          ${isPermanent(file) ? "دائم" : "حذف تلقائي بعد 24 ساعة"}
         </small>
+
+        ${expiryLabel(file)}
 
         <div class="tileActions">
 
@@ -2017,7 +2202,7 @@ window.viewFile = id => {
       <p>
         ${fmtSize(file.size)}
         •
-        ${isExpired(file) ? "الرابط منتهي" : remaining(file.expiresAt)}
+        ${isPermanent(file) ? "ملف دائم" : remaining(file.expiresAt)}
       </p>
 
       <div class="preview">
@@ -2136,14 +2321,26 @@ window.shareFile = async id => {
 
   }else{
 
-    await navigator.clipboard.writeText(url);
+    try{
 
-    toast("تم نسخ الرابط");
+      await navigator.clipboard.writeText(url);
+
+      toast("تم نسخ الرابط");
+
+    }catch{
+
+      prompt("انسخ الرابط:",url);
+
+    }
 
   }
 
 };
 
+
+/* =========================================================
+   EDIT FILE
+========================================================= */
 
 window.renameFile = async id => {
 
@@ -2154,18 +2351,116 @@ window.renameFile = async id => {
     return;
   }
 
-  const name =
-    prompt(
-      "اكتب الاسم الجديد للملف:",
-      file.name
-    );
+  const permanent =
+    isPermanent(file);
 
-  if(name === null){
+  $("modal").innerHTML = `
+
+    <h3>تعديل الملف</h3>
+
+    <p>
+      يمكنك تغيير اسم الملف وتحديد ما إذا كان سيُحذف بعد 24 ساعة
+      أو يبقى بشكل دائم.
+    </p>
+
+    <div class="field">
+
+      <label>اسم الملف</label>
+
+      <input
+        id="editFileName"
+        type="text"
+        maxlength="180"
+        value="${escapeHtml(file.name)}"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>مدة الاحتفاظ</label>
+
+      <div class="optionBox">
+
+        <label class="option">
+
+          <input
+            type="radio"
+            name="fileLifetime"
+            value="temporary"
+            ${!permanent ? "checked" : ""}
+          >
+
+          <span>
+            <strong>حذف بعد 24 ساعة</strong>
+            <small>
+              سيتم حذف الملف تلقائياً بعد انتهاء المدة.
+            </small>
+          </span>
+
+        </label>
+
+        <label class="option">
+
+          <input
+            type="radio"
+            name="fileLifetime"
+            value="permanent"
+            ${permanent ? "checked" : ""}
+          >
+
+          <span>
+            <strong>الاحتفاظ بشكل دائم</strong>
+            <small>
+              يبقى الملف حتى يقوم أحد المستخدمين بحذفه.
+            </small>
+          </span>
+
+        </label>
+
+      </div>
+
+    </div>
+
+    <div class="modalActions">
+
+      <button
+        class="btn primary"
+        onclick="saveFileEdit('${file.id}')"
+      >
+        حفظ التغييرات
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="closeModal()"
+      >
+        إلغاء
+      </button>
+
+    </div>
+
+  `;
+
+  $("modalBack").classList.remove("hidden");
+
+};
+
+
+window.saveFileEdit = async id => {
+
+  const file =
+    files.find(item => item.id === id);
+
+  if(!file){
     return;
   }
 
+  const nameInput =
+    $("editFileName");
+
   const clean =
-    name.trim().slice(0,180);
+    nameInput.value.trim().slice(0,180);
 
   if(!clean){
 
@@ -2175,27 +2470,71 @@ window.renameFile = async id => {
 
   }
 
-  try{
-
-    await update(
-      ref(db, `files/${currentUser.uid}/${id}`),
-      {
-        name:clean
-      }
+  const selected =
+    document.querySelector(
+      'input[name="fileLifetime"]:checked'
     );
 
-    toast("تم تعديل اسم الملف");
+  if(!selected){
+
+    toast("حدد مدة الاحتفاظ بالملف");
+
+    return;
+
+  }
+
+  const makePermanent =
+    selected.value === "permanent";
+
+  try{
+
+    if(makePermanent){
+
+      await update(
+        ref(db,`files/${id}`),
+        {
+          name:clean,
+          permanent:true,
+          expiresAt:null
+        }
+      );
+
+      toast("تم حفظ الملف بشكل دائم");
+
+    }else{
+
+      const newExpiry =
+        Date.now() + LINK_LIFETIME;
+
+      await update(
+        ref(db,`files/${id}`),
+        {
+          name:clean,
+          permanent:false,
+          expiresAt:newExpiry
+        }
+      );
+
+      toast("تم ضبط حذف الملف بعد 24 ساعة");
+
+    }
+
+    closeModal();
 
   }catch(error){
 
     console.error(error);
 
-    toast("تعذر تعديل اسم الملف");
+    toast("تعذر تعديل الملف");
 
   }
 
 };
 
+
+/* =========================================================
+   DELETE
+========================================================= */
 
 window.deleteFile = async id => {
 
@@ -2217,8 +2556,27 @@ window.deleteFile = async id => {
   try{
 
     await remove(
-      ref(db, `files/${currentUser.uid}/${id}`)
+      ref(db,`files/${id}`)
     );
+
+    /*
+     * Also remove the old-style share index if
+     * one exists for this file.
+     */
+    try{
+
+      await remove(
+        ref(db,`shares/${id}`)
+      );
+
+    }catch(error){
+
+      console.warn(
+        "Share cleanup warning:",
+        error
+      );
+
+    }
 
     toast("تم حذف الملف");
 
@@ -2337,24 +2695,28 @@ async function uploadFile(file){
 
       createdAt,
 
+      permanent:
+        false,
+
       expiresAt:
         expires
 
     };
 
 
+    /*
+     * NEW SHARED STRUCTURE
+     *
+     * files/{id}
+     *
+     * Everyone sees the same File Center.
+     */
     await update(
-  ref(db),
-  {
-    [`files/${user.uid}/${id}`]: fileData,
-
-    [`shares/${id}`]: {
-      ownerId: user.uid,
-      createdAt,
-      expiresAt: expires
-    }
-  }
-);
+      ref(db),
+      {
+        [`files/${id}`]: fileData
+      }
+    );
 
 
     $("bar").style.width = "100%";
@@ -2373,9 +2735,14 @@ async function uploadFile(file){
     $("shareUrl").value =
       url;
 
+    $("resultText").textContent =
+      "امسح QR من الجهاز الآخر أو شارك الرابط مباشرة. " +
+      "سيستمر الرابط بالعمل ما دام الملف موجوداً.";
+
+
     $("result").classList.add("show");
 
-    await makeQR(url);
+    makeQR(url);
 
     $("status").classList.remove("show");
 
@@ -2405,32 +2772,52 @@ async function uploadFile(file){
 ========================================================= */
 
 function makeQR(text){
+
   try{
-    const qrBox = $("qr");
+
+    const qrBox =
+      $("qr");
 
     if(!qrBox){
-      throw new Error("QR container not found");
+      throw new Error(
+        "QR container not found"
+      );
     }
 
     if(typeof QRCode === "undefined"){
-      throw new Error("QRCode library is not loaded");
+      throw new Error(
+        "QRCode library is not loaded"
+      );
     }
 
     qrBox.innerHTML = "";
 
     new QRCode(qrBox, {
-      text: String(text),
-      width: 180,
-      height: 180,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.M
+
+      text:String(text),
+
+      width:180,
+
+      height:180,
+
+      colorDark:"#000000",
+
+      colorLight:"#ffffff",
+
+      correctLevel:
+        QRCode.CorrectLevel.M
+
     });
 
   }catch(error){
-    console.error("QR ERROR:", error);
+
+    console.error(
+      "QR ERROR:",
+      error
+    );
 
     $("qr").innerHTML = `
+
       <div style="
         padding:20px;
         color:#a53b3b;
@@ -2439,9 +2826,13 @@ function makeQR(text){
       ">
         تعذر إنشاء رمز QR
       </div>
+
     `;
+
   }
+
 }
+
 
 /* =========================================================
    SHARED FILE
@@ -2459,68 +2850,20 @@ async function loadSharedFile(id){
   try{
 
     /*
-      We don't know the owner UID from the URL.
+     * NEW SHARED STRUCTURE:
+     *
+     * files/{id}
+     *
+     * No owner UID is required.
+     */
 
-      Therefore we use a public "shares" index
-      in Realtime Database.
-
-      The upload process creates BOTH:
-
-      files/{uid}/{id}
-
-      and
-
-      shares/{id}
-
-      The actual Base64 file is stored only once
-      in files/{uid}/{id}.
-    */
-
-    const shareSnapshot =
+    const snapshot =
       await get(
-        ref(db, `shares/${id}`)
+        ref(db,`files/${id}`)
       );
 
 
-    if(!shareSnapshot.exists()){
-
-      throw new Error("not-found");
-
-    }
-
-
-    const share =
-      shareSnapshot.val();
-
-
-    const expiresAt =
-      Number(share.expiresAt || 0);
-
-
-    if(
-      expiresAt &&
-      expiresAt <= Date.now()
-    ){
-
-      throw new Error("expired");
-
-    }
-
-
-    const ownerUid =
-      share.ownerId;
-
-
-    const fileSnapshot =
-      await get(
-        ref(
-          db,
-          `files/${ownerUid}/${id}`
-        )
-      );
-
-
-    if(!fileSnapshot.exists()){
+    if(!snapshot.exists()){
 
       throw new Error("not-found");
 
@@ -2528,7 +2871,46 @@ async function loadSharedFile(id){
 
 
     const file =
-      fileSnapshot.val();
+      snapshot.val();
+
+
+    const permanent =
+      isPermanent(file);
+
+
+    const expires =
+      Number(file.expiresAt || 0);
+
+
+    if(
+      !permanent &&
+      expires &&
+      expires <= Date.now()
+    ){
+
+      /*
+       * The file has expired.
+       *
+       * Try to clean it up.
+       */
+      try{
+
+        await remove(
+          ref(db,`files/${id}`)
+        );
+
+      }catch(error){
+
+        console.warn(
+          "Expired file cleanup warning:",
+          error
+        );
+
+      }
+
+      throw new Error("expired");
+
+    }
 
 
     $("viewTitle").textContent =
@@ -2547,10 +2929,19 @@ async function loadSharedFile(id){
       icon(file.contentType);
 
 
-    $("viewNotice").textContent =
-      `ينتهي رابط المشاركة في ${
-        new Date(expiresAt).toLocaleString("ar-SA")
-      }. يمكنك فتح الملف أو تحميله الآن.`;
+    if(permanent){
+
+      $("viewNotice").textContent =
+        "هذا ملف دائم. رابط QR يستمر بالعمل حتى يتم حذف الملف من مركز الملفات.";
+
+    }else{
+
+      $("viewNotice").textContent =
+        `هذا الملف مؤقت وسيتم حذفه بعد ${
+          new Date(expires).toLocaleString("ar-SA")
+        }.`;
+
+    }
 
 
     $("downloadBtn").style.display =
@@ -2578,6 +2969,18 @@ async function loadSharedFile(id){
       link.remove();
 
     };
+
+
+    /*
+     * Remove any old preview from a previous
+     * shared-file load.
+     */
+    const oldPreview =
+      document.getElementById("sharedPreview");
+
+    if(oldPreview){
+      oldPreview.remove();
+    }
 
 
     const preview =
@@ -2608,12 +3011,14 @@ async function loadSharedFile(id){
 
     $("viewTitle").textContent =
       error.message === "expired"
-        ? "انتهت صلاحية الرابط"
+        ? "انتهت صلاحية الملف"
         : "الملف غير موجود";
 
 
     $("viewName").textContent =
-      "قد يكون الرابط منتهي الصلاحية أو أن الملف غير موجود.";
+      error.message === "expired"
+        ? "تم حذف الملف بعد انتهاء مدة الاحتفاظ."
+        : "قد يكون الرابط غير صحيح أو أن الملف تم حذفه.";
 
 
     $("viewSize").textContent =
@@ -2621,7 +3026,7 @@ async function loadSharedFile(id){
 
 
     $("viewNotice").textContent =
-      "الملف نفسه لا يتم حذفه تلقائياً من قاعدة البيانات. يمكن لمالك الحساب حذفه يدوياً من مركز الملفات.";
+      "يمكن إنشاء رابط جديد فقط إذا كان الملف ما زال موجوداً في مركز الملفات.";
 
 
     $("downloadBtn").style.display =
@@ -2815,11 +3220,22 @@ $("shareBtn").onclick =
 
     }else{
 
-      await navigator.clipboard.writeText(url);
+      try{
 
-      toast(
-        "المتصفح لا يدعم المشاركة — تم نسخ الرابط"
-      );
+        await navigator.clipboard.writeText(url);
+
+        toast(
+          "المتصفح لا يدعم المشاركة — تم نسخ الرابط"
+        );
+
+      }catch{
+
+        prompt(
+          "انسخ الرابط:",
+          url
+        );
+
+      }
 
     }
 
@@ -2845,6 +3261,10 @@ async function boot(){
 
         updateAccountUI();
 
+        /*
+         * The File Center is shared.
+         * It no longer depends on the user's UID.
+         */
         if(user){
 
           subscribeFiles();
