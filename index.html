@@ -3,389 +3,2902 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b5a46">
+<meta name="theme-color" content="#075743">
 <meta name="description" content="وصلة — مشاركة الملفات بين أجهزتك بسرعة وأمان">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📂</text></svg>">
 <title>وصلة — مشاركة الملفات</title>
+
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap');
 :root{
-  --green:#075a45;--green2:#0b6b53;--green3:#0f7a5f;--mint:#dfece4;
-  --ink:#18382f;--muted:#6c7e77;--paper:#f7f3e8;--card:#fffdf7;
-  --line:#d9dfd6;--gold:#b99a55;--danger:#b33b36;--shadow:0 18px 55px rgba(19,55,43,.12);
-  --radius:24px;
+  --green:#075743;
+  --green2:#0b7057;
+  --mint:#bfe6d3;
+  --cream:#f5f1e7;
+  --paper:#fbfaf5;
+  --ink:#17332a;
+  --muted:#6d7c76;
+  --line:#dbe3dc;
+  --danger:#a53b3b;
+  --shadow:0 18px 60px rgba(22,60,47,.12)
 }
+
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:
- radial-gradient(circle at 8% 0%,rgba(11,107,83,.08),transparent 27rem),
- radial-gradient(circle at 95% 15%,rgba(185,154,85,.09),transparent 24rem),
- var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif}
-body{overflow-x:hidden}
-button,input{font:inherit}
-button{cursor:pointer}
-a{color:inherit}
-.hidden{display:none!important}
-.app{width:min(1180px,calc(100% - 28px));margin:auto;padding:22px 0 46px}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 2px 24px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.logo{width:50px;height:50px;border-radius:16px;background:var(--green);display:grid;place-items:center;position:relative;overflow:hidden;box-shadow:0 10px 22px rgba(7,90,69,.2)}
-.logo:before,.logo:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.24);transform:rotate(45deg)}
-.logo:before{width:34px;height:34px}.logo:after{width:22px;height:22px}
-.logo span{position:relative;z-index:2;color:#fff;font-family:"Noto Kufi Arabic";font-size:18px;font-weight:800}
-.brand h1{margin:0;font-family:"Noto Kufi Arabic";font-size:20px;line-height:1}
-.brand p{margin:5px 0 0;color:var(--muted);font-size:12px}
-.nav{display:flex;gap:8px;align-items:center}
-.nav button,.account-btn{border:1px solid var(--line);background:rgba(255,253,247,.78);color:var(--ink);padding:10px 14px;border-radius:13px}
-.nav button.active{background:var(--green);color:white;border-color:var(--green)}
-.account-btn{font-weight:600}
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0a5945,#074936);border-radius:34px;padding:40px 42px;color:#fff;box-shadow:var(--shadow)}
-.hero:before,.hero:after{content:"";position:absolute;inset:auto -70px -110px auto;width:330px;height:330px;border:1px solid rgba(255,255,255,.13);transform:rotate(45deg);border-radius:42px}
-.hero:after{width:230px;height:230px;right:90px;bottom:-120px}
-.kicker{display:inline-flex;align-items:center;gap:8px;color:#dbeee5;font-size:12px;font-weight:600;margin-bottom:12px}
-.kicker i{width:7px;height:7px;border-radius:50%;background:#d8bb75;box-shadow:0 0 0 5px rgba(216,187,117,.12)}
-.hero h2{font-family:"Noto Kufi Arabic";font-size:clamp(27px,4vw,46px);line-height:1.28;margin:0 0 10px;max-width:720px}
-.hero .sub{color:#d6e6df;max-width:650px;line-height:1.9;margin:0}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
-.btn{border:0;border-radius:14px;padding:12px 17px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;transition:.18s transform,.18s box-shadow,.18s background}
-.btn:hover{transform:translateY(-1px)}
-.btn.primary{background:#fff;color:var(--green);box-shadow:0 8px 22px rgba(0,0,0,.12)}
-.btn.ghost{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.2)}
-.btn.green{background:var(--green);color:#fff}.btn.soft{background:#edf4ef;color:var(--green)}.btn.danger{background:#fff0ef;color:var(--danger)}
-.section{margin-top:22px}
-.upload-card{background:rgba(255,253,247,.9);border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow)}
-.drop{min-height:270px;border:2px dashed #a9beb3;border-radius:22px;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px;transition:.2s;background:
- linear-gradient(135deg,rgba(223,236,228,.38),rgba(255,253,247,.55))}
-.drop.drag{border-color:var(--green);background:#eaf4ee;transform:scale(.995)}
-.drop-icon{width:74px;height:74px;border-radius:23px;background:var(--mint);display:grid;place-items:center;margin:0 auto 16px;color:var(--green);font-size:31px}
-.drop h3{margin:0 0 7px;font-family:"Noto Kufi Arabic";font-size:20px}.drop p{margin:0 0 18px;color:var(--muted);font-size:13px}
-.hint{font-size:11px;color:#82918c;margin-top:10px}
-.progress{height:8px;background:#e5ebe7;border-radius:999px;overflow:hidden;margin-top:16px}.progress span{display:block;height:100%;width:0;background:var(--green);transition:width .2s}
-.result{margin-top:18px;background:#f2f7f3;border:1px solid #d7e4dc;border-radius:20px;padding:17px}
-.result-grid{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
-.fileline{display:flex;gap:12px;align-items:center;min-width:0}.fileicon{width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid #dce6df;display:grid;place-items:center;font-size:20px}
-.filemeta{min-width:0}.filemeta strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.filemeta small{color:var(--muted)}
-.qrbox{background:#fff;border-radius:18px;padding:10px;border:1px solid #dfe7e1;width:146px;height:146px;display:grid;place-items:center}
-.qrbox img{max-width:100%;max-height:100%;display:block}
-.share-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.tabs{display:flex;gap:8px;margin-bottom:13px;overflow:auto;padding-bottom:2px}
-.tab{border:1px solid var(--line);background:#fffdf7;border-radius:13px;padding:10px 15px;color:var(--muted);white-space:nowrap}
-.tab.active{background:var(--green);border-color:var(--green);color:white}
-.panel{background:rgba(255,253,247,.92);border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow)}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:17px}.panel-head h3{margin:0;font-family:"Noto Kufi Arabic";font-size:20px}.panel-head p{margin:5px 0 0;color:var(--muted);font-size:12px}
-.search{display:flex;gap:8px;margin-bottom:15px}.search input{flex:1;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;outline:none}.search input:focus{border-color:#83a99b;box-shadow:0 0 0 4px rgba(11,107,83,.07)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.filecard{background:#fff;border:1px solid #e0e5df;border-radius:20px;padding:15px;display:flex;flex-direction:column;min-height:190px}
-.thumb{height:100px;border-radius:14px;background:#f0f4f0;display:grid;place-items:center;overflow:hidden;margin-bottom:13px;color:var(--green);font-size:30px}
-.thumb img,.thumb video{width:100%;height:100%;object-fit:cover}
-.cardname{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cardmeta{font-size:11px;color:var(--muted);margin-top:4px}
-.cardactions{display:flex;gap:6px;margin-top:auto;padding-top:13px}.mini{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 9px;font-size:12px;flex:1}.mini.danger{color:var(--danger)}
-.empty{text-align:center;padding:48px 15px;color:var(--muted)}.empty .big{font-size:42px;margin-bottom:8px}
-.modal-back{position:fixed;inset:0;background:rgba(8,35,28,.55);backdrop-filter:blur(5px);display:grid;place-items:center;padding:16px;z-index:20}
-.modal{width:min(480px,100%);background:var(--card);border-radius:25px;border:1px solid var(--line);padding:22px;box-shadow:0 30px 90px rgba(0,0,0,.25);max-height:90vh;overflow:auto}
-.modal h3{font-family:"Noto Kufi Arabic";margin:0 0 7px}.modal p{color:var(--muted);font-size:13px;line-height:1.8}.field{margin:11px 0}.field label{display:block;font-size:12px;margin-bottom:6px}.field input{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;outline:none;background:#fff}.modal-actions{display:flex;gap:8px;margin-top:15px}.modal-actions .btn{flex:1}
-.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,15px);background:#173c32;color:#fff;border-radius:14px;padding:11px 15px;box-shadow:0 12px 35px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:.2s;z-index:30;font-size:13px}.toast.show{opacity:1;transform:translate(-50%,0)}
-.footer{display:flex;justify-content:space-between;gap:12px;color:#87948f;font-size:11px;padding:17px 4px}.status{display:inline-flex;align-items:center;gap:6px}.status:before{content:"";width:7px;height:7px;background:#36a36f;border-radius:50%}
-@media(max-width:700px){
- .app{width:min(100% - 18px,1180px);padding-top:10px}.topbar{padding-bottom:14px}.brand p{display:none}.nav button{display:none}.hero{padding:28px 22px;border-radius:26px}.hero h2{font-size:28px}.hero-actions .btn{flex:1}
- .upload-card,.panel{padding:14px;border-radius:22px}.drop{min-height:235px}.result-grid{grid-template-columns:1fr}.qrbox{margin:auto}.panel-head{align-items:flex-start}.grid{grid-template-columns:1fr}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Cairo,system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,#e7f0e7 0,#f5f1e7 32%,#eef3ec 100%);
+  color:var(--ink)
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.16;
+  background-image:
+    linear-gradient(45deg,transparent 46%,#2b6756 47%,#2b6756 50%,transparent 51%),
+    linear-gradient(-45deg,transparent 46%,#2b6756 47%,#2b6756 50%,transparent 51%);
+  background-size:34px 34px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 55%)
+}
+
+button,input{
+  font:inherit
+}
+
+button{
+  cursor:pointer
+}
+
+.hidden{
+  display:none!important
+}
+
+.wrap{
+  width:min(1050px,calc(100% - 28px));
+  margin:auto
+}
+
+.top{
+  padding:26px 0 8px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  color:inherit
+}
+
+.mark{
+  width:50px;
+  height:50px;
+  border-radius:16px;
+  background:var(--green);
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-weight:800;
+  font-size:24px;
+  box-shadow:0 9px 25px rgba(7,87,67,.2);
+  position:relative
+}
+
+.mark:after{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:11px;
+  transform:rotate(45deg)
+}
+
+.brand h1{
+  font-size:20px;
+  margin:0
+}
+
+.brand small{
+  display:block;
+  color:var(--muted);
+  font-size:11px
+}
+
+.badge{
+  font-size:11px;
+  background:#e4efe7;
+  border:1px solid #c8dbcf;
+  color:var(--green);
+  padding:7px 11px;
+  border-radius:999px;
+  font-weight:700
+}
+
+.nav{
+  display:flex;
+  gap:7px;
+  align-items:center
+}
+
+.nav button{
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  padding:8px 12px;
+  border-radius:11px;
+  font-size:12px
+}
+
+.nav button.active{
+  background:var(--green);
+  color:#fff;
+  border-color:var(--green)
+}
+
+.hero{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:20px;
+  align-items:stretch;
+  margin:18px 0 24px
+}
+
+.panel{
+  background:rgba(251,250,245,.88);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:30px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(14px)
+}
+
+.heroCopy{
+  padding:40px
+}
+
+.eyebrow{
+  color:var(--green2);
+  font-weight:800;
+  font-size:13px;
+  letter-spacing:.4px
+}
+
+.hero h2{
+  font-size:clamp(34px,5vw,58px);
+  line-height:1.1;
+  margin:12px 0
+}
+
+.hero h2 span{
+  color:#14935f
+}
+
+.hero p{
+  color:var(--muted);
+  line-height:2;
+  margin:0 0 25px;
+  max-width:650px
+}
+
+.steps{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+.step{
+  font-size:12px;
+  border:1px solid var(--line);
+  padding:8px 11px;
+  border-radius:12px;
+  background:#fff
+}
+
+.visual{
+  min-height:330px;
+  background:linear-gradient(145deg,#075743,#0c765c);
+  border-radius:30px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff
+}
+
+.visual:before,
+.visual:after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(255,255,255,.16);
+  transform:rotate(45deg)
+}
+
+.visual:before{
+  width:290px;
+  height:290px
+}
+
+.visual:after{
+  width:190px;
+  height:190px
+}
+
+.connection{
+  position:relative;
+  z-index:2;
+  text-align:center
+}
+
+.node{
+  width:92px;
+  height:92px;
+  margin:auto;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:25px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.09);
+  font-size:38px
+}
+
+.connection b{
+  display:block;
+  margin-top:15px
+}
+
+.connection small{
+  opacity:.72
+}
+
+.upload{
+  padding:24px
+}
+
+.drop{
+  border:2px dashed #a9c9b9;
+  border-radius:23px;
+  padding:44px 22px;
+  text-align:center;
+  cursor:pointer;
+  background:linear-gradient(
+    180deg,
+    rgba(237,247,240,.75),
+    rgba(255,255,255,.55)
+  );
+  transition:.2s
+}
+
+.drop:hover,
+.drop.drag{
+  border-color:var(--green2);
+  background:#edf8f1;
+  transform:translateY(-1px)
+}
+
+.uploadIcon{
+  width:64px;
+  height:64px;
+  border-radius:20px;
+  background:#dcefe4;
+  color:var(--green);
+  display:grid;
+  place-items:center;
+  margin:0 auto 13px;
+  font-size:30px
+}
+
+.drop h3{
+  margin:0 0 5px;
+  font-size:19px
+}
+
+.drop p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px
+}
+
+.drop input{
+  display:none
+}
+
+.limits{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px
+}
+
+.limits span{
+  font-size:11px;
+  background:#fff;
+  border:1px solid var(--line);
+  padding:6px 9px;
+  border-radius:999px;
+  color:var(--muted)
+}
+
+.status{
+  display:none;
+  margin-top:16px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:13px;
+  background:#fff
+}
+
+.status.show{
+  display:block
+}
+
+.statusRow{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.spinner{
+  width:18px;
+  height:18px;
+  border:2px solid #cddbd4;
+  border-top-color:var(--green);
+  border-radius:50%;
+  animation:spin .8s linear infinite
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.bar{
+  height:8px;
+  background:#edf1ee;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:10px
+}
+
+.bar i{
+  display:block;
+  width:0;
+  height:100%;
+  background:var(--green2);
+  border-radius:999px;
+  transition:width .2s
+}
+
+.status small{
+  color:var(--muted)
+}
+
+.result{
+  display:none;
+  margin-top:18px;
+  grid-template-columns:190px 1fr;
+  gap:22px;
+  align-items:center
+}
+
+.result.show{
+  display:grid
+}
+
+.qrbox{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px;
+  text-align:center
+}
+
+.qrbox canvas{
+  max-width:100%;
+  height:auto
+}
+
+.result h3{
+  margin:0 0 7px
+}
+
+.result p{
+  color:var(--muted);
+  margin:0 0 14px;
+  font-size:13px
+}
+
+.link{
+  display:flex;
+  gap:7px
+}
+
+.link input{
+  flex:1;
+  min-width:0;
+  border:1px solid var(--line);
+  background:#f7f8f5;
+  border-radius:12px;
+  padding:11px;
+  font-family:inherit;
+  direction:ltr
+}
+
+.btns{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:11px 15px;
+  font-family:inherit;
+  font-weight:700;
+  cursor:pointer
+}
+
+.primary{
+  background:var(--green);
+  color:#fff
+}
+
+.secondary{
+  background:#e8f1eb;
+  color:var(--green)
+}
+
+.ghost{
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--ink)
+}
+
+.danger{
+  background:#fff1f1;
+  color:var(--danger);
+  border:1px solid #f0caca
+}
+
+.fileView{
+  display:none;
+  padding:24px
+}
+
+.fileView.show{
+  display:block
+}
+
+.fileCard{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:15px;
+  background:#fff
+}
+
+.fileIcon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:#e2f0e7;
+  display:grid;
+  place-items:center;
+  font-size:22px
+}
+
+.fileMeta{
+  flex:1;
+  min-width:0
+}
+
+.fileMeta strong{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+
+.fileMeta small{
+  color:var(--muted)
+}
+
+.notice{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.8;
+  margin-top:13px
+}
+
+.center{
+  display:none;
+  padding:24px
+}
+
+.center.show{
+  display:block
+}
+
+.centerHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px
+}
+
+.centerHead h2{
+  margin:0;
+  font-size:22px
+}
+
+.centerHead p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:12px
+}
+
+.search{
+  width:100%;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:13px;
+  padding:11px 13px;
+  outline:none;
+  margin-bottom:15px
+}
+
+.search:focus{
+  border-color:#7fae9a;
+  box-shadow:0 0 0 4px rgba(11,112,87,.06)
+}
+
+.tabs{
+  display:flex;
+  gap:7px;
+  overflow:auto;
+  padding-bottom:8px;
+  margin-bottom:10px
+}
+
+.tab{
+  white-space:nowrap;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:11px;
+  padding:8px 12px;
+  color:var(--muted);
+  font-size:12px
+}
+
+.tab.active{
+  background:var(--green);
+  color:#fff;
+  border-color:var(--green)
+}
+
+.fileGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px
+}
+
+.fileTile{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:13px;
+  min-width:0;
+  display:flex;
+  flex-direction:column
+}
+
+.thumb{
+  height:105px;
+  border-radius:13px;
+  background:#eef3ef;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  margin-bottom:11px;
+  color:var(--green);
+  font-size:32px
+}
+
+.thumb img,
+.thumb video{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.fileTile strong{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+
+.fileTile small{
+  color:var(--muted);
+  font-size:11px
+}
+
+.tileActions{
+  display:flex;
+  gap:6px;
+  margin-top:auto;
+  padding-top:12px
+}
+
+.mini{
+  flex:1;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:10px;
+  padding:8px 5px;
+  font-size:11px
+}
+
+.empty{
+  text-align:center;
+  padding:45px 15px;
+  color:var(--muted);
+  grid-column:1/-1
+}
+
+.accountInfo{
+  background:#eef6f0;
+  border:1px solid #d6e6da;
+  border-radius:15px;
+  padding:13px;
+  margin-bottom:15px;
+  font-size:12px
+}
+
+.modalBack{
+  position:fixed;
+  inset:0;
+  background:rgba(8,35,28,.55);
+  backdrop-filter:blur(5px);
+  display:grid;
+  place-items:center;
+  padding:16px;
+  z-index:50
+}
+
+.modal{
+  width:min(500px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--paper);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 30px 90px rgba(0,0,0,.25)
+}
+
+.modal h3{
+  margin:0 0 7px
+}
+
+.modal p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8
+}
+
+.field{
+  margin:12px 0
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  margin-bottom:6px
+}
+
+.field input{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  outline:none
+}
+
+.modalActions{
+  display:flex;
+  gap:8px;
+  margin-top:15px
+}
+
+.modalActions .btn{
+  flex:1
+}
+
+.preview{
+  background:#eef3ef;
+  border-radius:16px;
+  padding:8px;
+  text-align:center;
+  max-height:55vh;
+  overflow:auto
+}
+
+.preview img{
+  max-width:100%;
+  max-height:50vh;
+  border-radius:12px
+}
+
+.preview video{
+  max-width:100%;
+  max-height:50vh;
+  border-radius:12px
+}
+
+.preview audio{
+  width:100%
+}
+
+.preview iframe{
+  width:100%;
+  height:50vh;
+  border:0;
+  border-radius:12px
+}
+
+footer{
+  padding:24px 0 35px;
+  text-align:center;
+  color:#82908a;
+  font-size:11px
+}
+
+.footerline{
+  height:6px;
+  border-radius:999px;
+  background:#1f5143;
+  margin:18px 0 14px;
+  position:relative
+}
+
+.footerline:after{
+  content:"◇  •  ◇";
+  position:absolute;
+  inset:-13px 0 auto;
+  text-align:center;
+  color:#b5c6bb;
+  font-size:13px
+}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translate(-50%,20px);
+  opacity:0;
+  background:#17332a;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:999px;
+  font-size:12px;
+  transition:.25s;
+  z-index:100;
+  pointer-events:none
+}
+
+.toast.on{
+  opacity:1;
+  transform:translate(-50%,0)
+}
+
+@media(max-width:780px){
+  .hero{
+    grid-template-columns:1fr
+  }
+
+  .visual{
+    min-height:220px
+  }
+
+  .heroCopy{
+    padding:28px
+  }
+
+  .result.show{
+    grid-template-columns:1fr
+  }
+
+  .qrbox{
+    width:190px;
+    margin:auto
+  }
+
+  .top{
+    align-items:flex-start
+  }
+
+  .badge{
+    display:none
+  }
+
+  .nav button{
+    display:none
+  }
+
+  .fileCard{
+    align-items:flex-start
+  }
+
+  .fileGrid{
+    grid-template-columns:1fr
+  }
+
+  .centerHead{
+    align-items:flex-start
+  }
 }
 </style>
 </head>
+
 <body>
-<div class="app">
-<header class="topbar">
-  <a class="brand" href="#" onclick="showView('home');return false">
-    <div class="logo"><span>و</span></div>
-    <div><h1>وصلة</h1><p>شاركها بسهولة، من جهاز إلى جهاز</p></div>
+
+<main class="wrap">
+
+<header class="top">
+
+  <a class="brand" href="#" onclick="showHome();return false">
+
+    <div class="mark">و</div>
+
+    <div>
+      <h1>وصلة</h1>
+      <small>مشاركة ملفات بين أجهزتك</small>
+    </div>
+
   </a>
+
   <div class="nav">
-    <button id="homeNav" class="active" onclick="showView('home')">الرئيسية</button>
-    <button id="mediaNav" onclick="showView('media')">مركز الملفات</button>
-    <button class="account-btn" onclick="openAccount()" id="accountBtn">تسجيل الدخول</button>
+    <button id="homeBtn" class="active" onclick="showHome()">الرئيسية</button>
+    <button id="centerBtn" onclick="showCenter()">مركز الملفات</button>
+    <button id="accountBtn" onclick="openAccount()">تسجيل الدخول</button>
   </div>
+
+  <div class="badge">روابط مشاركة لمدة 24 ساعة</div>
+
 </header>
 
-<main id="homeView">
-<section class="hero">
-  <div class="kicker"><i></i> مشاركة سريعة • روابط مؤقتة • خصوصية</div>
-  <h2>وصّل ملفاتك بين أجهزتك، بدون تعقيد.</h2>
-  <p class="sub">ارفع الملف من جهازك، واحصل فوراً على رابط وQR. افتحه من هاتفك أو جهازك الآخر، ثم شاهد الملف أو حمّله.</p>
-  <div class="hero-actions">
-    <button class="btn primary" onclick="document.getElementById('fileInput').click()">رفع ملف</button>
-    <button class="btn ghost" onclick="showView('media')">فتح مركز الملفات</button>
-  </div>
-</section>
 
-<section class="section upload-card">
-  <input id="fileInput" type="file" hidden multiple>
-  <div class="drop" id="dropZone">
-    <div>
-      <div class="drop-icon">↥</div>
-      <h3>اسحب الملف هنا</h3>
-      <p>أو اختر ملفاً من جهازك للبدء</p>
-      <button class="btn green" onclick="document.getElementById('fileInput').click()">اختيار ملف</button>
-      <div class="hint">الحد المقترح للملف: 100 MB • الملفات مؤقتة لمدة 24 ساعة</div>
+<!-- HOME -->
+
+<section id="homeSection">
+
+  <section class="hero">
+
+    <div class="panel heroCopy">
+
+      <div class="eyebrow">
+        سريع • خاص • بدون تعقيد
+      </div>
+
+      <h2>
+        ارسلها من جهازك
+        <br>
+        <span>وافتحها من أي جهاز.</span>
+      </h2>
+
+      <p>
+        ارفع ملفاً، وخذ رابطاً أو امسح رمز QR من جوالك.
+        لا تحتاج إلى كابل أو تطبيق إضافي.
+      </p>
+
+      <div class="steps">
+        <span class="step">① ارفع</span>
+        <span class="step">② امسح QR</span>
+        <span class="step">③ افتح / حمّل</span>
+      </div>
+
     </div>
-  </div>
-  <div id="uploadProgress" class="progress hidden"><span></span></div>
-  <div id="result" class="result hidden"></div>
-</section>
-</main>
 
-<main id="mediaView" class="hidden">
-<section class="panel">
-  <div class="panel-head">
-    <div><h3>مركز الملفات</h3><p id="mediaSubtitle">ملفاتك المرفوعة من هذا الحساب</p></div>
-    <button class="btn green" onclick="document.getElementById('fileInput').click()">+ رفع</button>
+    <div class="visual">
+
+      <div class="connection">
+
+        <div class="node">↗</div>
+
+        <b>اتصال مباشر بالرابط</b>
+
+        <small>من نفس الموقع وعلى أي جهاز</small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="panel upload">
+
+    <label class="drop" id="drop">
+
+      <input id="fileInput" type="file">
+
+      <div class="uploadIcon">↑</div>
+
+      <h3>اسحب الملف هنا</h3>
+
+      <p>أو اضغط لاختيار ملف من جهازك</p>
+
+      <div class="limits">
+        <span>حد الملف: 5 MB</span>
+        <span>صلاحية الرابط: 24 ساعة</span>
+        <span>بدون Storage</span>
+      </div>
+
+    </label>
+
+
+    <div class="status" id="status">
+
+      <div class="statusRow">
+
+        <div class="spinner"></div>
+
+        <strong id="statusText">
+          جاري تجهيز الملف…
+        </strong>
+
+      </div>
+
+      <div class="bar">
+        <i id="bar"></i>
+      </div>
+
+      <small id="statusSmall">0%</small>
+
+    </div>
+
+
+    <div class="result" id="result">
+
+      <div class="qrbox" id="qr"></div>
+
+      <div>
+
+        <h3>تم تجهيز الوصلة ✓</h3>
+
+        <p id="resultText">
+          امسح QR من الجهاز الآخر أو شارك الرابط مباشرة.
+        </p>
+
+        <div class="link">
+          <input id="shareUrl" readonly>
+        </div>
+
+        <div class="btns">
+
+          <button class="btn primary" id="shareBtn">
+            مشاركة
+          </button>
+
+          <button class="btn secondary" id="copyBtn">
+            نسخ الرابط
+          </button>
+
+          <button class="btn ghost" id="openBtn">
+            فتح
+          </button>
+
+        </div>
+
+        <div class="notice">
+          الرابط يصبح غير متاح بعد 24 ساعة، لكن الملف نفسه لا يتم حذفه تلقائياً.
+          يمكنك حذفه يدوياً من مركز الملفات.
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</section>
+
+
+<!-- FILE CENTER -->
+
+<section id="centerSection" class="panel center">
+
+  <div class="centerHead">
+
+    <div>
+
+      <h2>مركز الملفات</h2>
+
+      <p id="centerSubtitle">
+        ملفاتك المحفوظة في حسابك
+      </p>
+
+    </div>
+
+    <button class="btn primary" onclick="triggerUpload()">
+      + رفع ملف
+    </button>
+
   </div>
+
+
+  <div class="accountInfo" id="accountInfo">
+    جاري تحميل الحساب…
+  </div>
+
+
+  <input
+    id="searchInput"
+    class="search"
+    placeholder="ابحث باسم الملف..."
+    autocomplete="off"
+  >
+
+
   <div class="tabs">
-    <button class="tab active" data-filter="all">الكل</button>
-    <button class="tab" data-filter="image">صور</button>
-    <button class="tab" data-filter="video">فيديو</button>
-    <button class="tab" data-filter="application/pdf">PDF</button>
-    <button class="tab" data-filter="other">أخرى</button>
+
+    <button class="tab active" data-filter="all">
+      الكل
+    </button>
+
+    <button class="tab" data-filter="image">
+      صور
+    </button>
+
+    <button class="tab" data-filter="video">
+      فيديو
+    </button>
+
+    <button class="tab" data-filter="application/pdf">
+      PDF
+    </button>
+
+    <button class="tab" data-filter="other">
+      أخرى
+    </button>
+
   </div>
-  <div class="search"><input id="searchInput" placeholder="ابحث باسم الملف..." autocomplete="off"></div>
-  <div id="fileGrid" class="grid"></div>
+
+
+  <div id="fileGrid" class="fileGrid"></div>
+
 </section>
+
+
+<!-- SHARED FILE -->
+
+<section id="sharedSection" class="panel fileView">
+
+  <div class="eyebrow">
+    ملف مشارك
+  </div>
+
+  <h2 id="viewTitle" style="margin:7px 0 15px">
+    جاري التحميل…
+  </h2>
+
+  <div class="fileCard">
+
+    <div class="fileIcon" id="viewIcon">
+      📄
+    </div>
+
+    <div class="fileMeta">
+
+      <strong id="viewName">—</strong>
+
+      <small id="viewSize">—</small>
+
+    </div>
+
+    <button class="btn primary" id="downloadBtn">
+      تحميل
+    </button>
+
+  </div>
+
+  <div class="notice" id="viewNotice"></div>
+
+</section>
+
+
+<footer>
+
+  <div class="footerline"></div>
+
+  وصلة — مشاركة ملفات مؤقتة بطريقة بسيطة وسريعة
+
+</footer>
+
 </main>
 
-<footer class="footer"><span>وصلة • مشاركة الملفات</span><span class="status" id="connectionStatus">جاهز</span></footer>
+
+<div id="modalBack" class="modalBack hidden">
+
+  <div id="modal" class="modal"></div>
+
 </div>
 
-<div id="modalBack" class="modal-back hidden">
- <div class="modal" id="modal"></div>
-</div>
-<div id="toast" class="toast"></div>
+
+<div class="toast" id="toast"></div>
+
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInAnonymously, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, EmailAuthProvider, linkWithCredential } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, doc, updateDoc, deleteDoc, getDoc, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js";
 
-const $=s=>document.querySelector(s);
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const MAX=100*1024*1024;
-let app,auth,db,storage,currentUser=null,files=[],filter="all",unsubscribe=null;
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2800)}
-function setStatus(s){$("#connectionStatus").textContent=s}
-function fmtSize(n){if(n<1024)return n+" B";if(n<1048576)return (n/1024).toFixed(1)+" KB";if(n<1073741824)return (n/1048576).toFixed(1)+" MB";return (n/1073741824).toFixed(1)+" GB"}
-function fmtDate(v){try{let d=v?.toDate?v.toDate():new Date(v);return d.toLocaleString("ar-SA",{dateStyle:"medium",timeStyle:"short"})}catch{return ""}}
-function icon(type){if(type?.startsWith("image/"))return "🖼️";if(type?.startsWith("video/"))return "🎬";if(type?.startsWith("audio/"))return "🎵";if(type==="application/pdf")return "📕";if(type?.includes("zip")||type?.includes("compressed"))return "🗜️";if(type?.includes("spreadsheet")||type?.includes("excel"))return "📊";if(type?.includes("word")||type?.includes("document"))return "📄";return "📦"}
-function shareUrl(id){return `${location.origin}${location.pathname}?s=${encodeURIComponent(id)}`}
-function qrUrl(url){return `https://quickchart.io/qr?size=320&margin=2&text=${encodeURIComponent(url)}`}
-function expiryMs(v){return (v?.toDate?v.toDate():new Date(v)).getTime()}
-function remaining(v){let ms=expiryMs(v)-Date.now();if(ms<=0)return "منتهي";let h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000);return `متبقي ${h}س ${m}د`}
-function isImage(f){return f.contentType?.startsWith("image/")}
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInAnonymously,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  EmailAuthProvider,
+  linkWithCredential
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getDatabase,
+  ref,
+  set,
+  get,
+  update,
+  remove,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+/* =========================================================
+   BASIC SETTINGS
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+const LINK_LIFETIME = 24 * 60 * 60 * 1000;
+
+let app;
+let auth;
+let db;
+let currentUser = null;
+
+let files = [];
+let currentFilter = "all";
+let unsubscribeFiles = null;
+
+
+/* =========================================================
+   UI HELPERS
+========================================================= */
+
+function toast(message){
+
+  const t = $("toast");
+
+  t.textContent = message;
+
+  t.classList.add("on");
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer = setTimeout(() => {
+    t.classList.remove("on");
+  }, 2800);
+
+}
+
+
+function fmtSize(bytes){
+
+  if(bytes < 1024){
+    return bytes + " B";
+  }
+
+  if(bytes < 1024 * 1024){
+    return (bytes / 1024).toFixed(1) + " KB";
+  }
+
+  return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/[&<>"']/g, char => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[char]));
+
+}
+
+
+function icon(type){
+
+  if(type?.startsWith("image/")) return "🖼️";
+
+  if(type?.startsWith("video/")) return "🎬";
+
+  if(type?.startsWith("audio/")) return "🎵";
+
+  if(type === "application/pdf") return "📕";
+
+  if(type?.includes("zip")) return "🗜️";
+
+  if(type?.includes("spreadsheet")) return "📊";
+
+  if(type?.includes("excel")) return "📊";
+
+  if(type?.includes("word")) return "📄";
+
+  return "📦";
+
+}
+
+
+function createId(){
+
+  const array = new Uint8Array(18);
+
+  crypto.getRandomValues(array);
+
+  return [...array]
+    .map(x => x.toString(16).padStart(2,"0"))
+    .join("");
+
+}
+
+
+function shareUrl(id){
+
+  return location.origin +
+    location.pathname +
+    "?s=" +
+    encodeURIComponent(id);
+
+}
+
+
+function expiresAt(){
+
+  return Date.now() + LINK_LIFETIME;
+
+}
+
+
+function remaining(timestamp){
+
+  const difference = timestamp - Date.now();
+
+  if(difference <= 0){
+    return "منتهي";
+  }
+
+  const hours = Math.floor(difference / 3600000);
+
+  const minutes =
+    Math.floor((difference % 3600000) / 60000);
+
+  return `متبقي ${hours}س ${minutes}د`;
+
+}
+
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
 
 async function loadConfig(){
-  const r=await fetch("/api/config.js",{headers:{accept:"application/json"}});
-  if(!r.ok)throw new Error("تعذر تحميل إعدادات Firebase");
-  const c=await r.json();
-  if(!c.apiKey||!c.projectId)throw new Error("إعدادات Firebase غير مكتملة");
-  const pid=c.projectId;
-  const cfg={
-    apiKey:c.apiKey,projectId:pid,
-    databaseURL:c.databaseURL||`https://${pid}-default-rtdb.firebaseio.com`,
-    authDomain:c.authDomain||`${pid}.firebaseapp.com`,
-    storageBucket:c.storageBucket||`${pid}.firebasestorage.app`,
-    appId:c.appId||""
-  };
-  if(!cfg.appId)throw new Error("أضف FIRE_APP إلى Vercel Environment Variables أو أرجع appId من API");
-  app=initializeApp(cfg);auth=getAuth(app);db=getFirestore(app);storage=getStorage(app);
-}
-async function boot(){
- try{setStatus("جارٍ الاتصال...");await loadConfig();
-   onAuthStateChanged(auth,u=>{currentUser=u;updateAccount();if(u){subscribeFiles();}else if(unsubscribe){unsubscribe();}});
-   if(!auth.currentUser) await signInAnonymously(auth);
-   await checkShare();
-   setStatus("متصل");
- }catch(e){console.error(e);setStatus("غير متصل");toast(e.message||"حدث خطأ في الاتصال")}
-}
-function updateAccount(){
- const b=$("#accountBtn");
- if(!currentUser){b.textContent="تسجيل الدخول";return}
- b.textContent=currentUser.isAnonymous?"حساب مؤقت":"حسابي";
- $("#mediaSubtitle").textContent=currentUser.isAnonymous?"ملفات هذا الجهاز (الحساب المؤقت)":"ملفات حسابك";
-}
-function subscribeFiles(){
- if(unsubscribe)unsubscribe();
- const q=query(collection(db,"files"),where("ownerId","==",currentUser.uid),orderBy("createdAt","desc"));
- unsubscribe=onSnapshot(q,s=>{files=s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>!x.expiresAt||expiryMs(x.expiresAt)>Date.now());renderFiles()},e=>{console.error(e);toast("تعذر تحميل مركز الملفات")});
-}
-function renderFiles(){
- const grid=$("#fileGrid"),term=$("#searchInput").value.trim().toLowerCase();
- let arr=files.filter(f=>{
-  const ft=f.contentType||"";
-  const ok=filter==="all"||(filter==="other"&&!ft.startsWith("image/")&&!ft.startsWith("video/")&&ft!=="application/pdf")||ft.startsWith(filter);
-  return ok&&(f.name||"").toLowerCase().includes(term)
- });
- if(!arr.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="big">□</div><div>لا توجد ملفات مطابقة حالياً</div></div>`;return}
- grid.innerHTML=arr.map(f=>{
-  const url=f.downloadURL||"#", preview=isImage(f)?`<img src="${esc(url)}" alt="">`:icon(f.contentType);
-  return `<article class="filecard">
-   <div class="thumb">${preview}</div>
-   <div class="cardname" title="${esc(f.name)}">${esc(f.name)}</div>
-   <div class="cardmeta">${fmtSize(f.size)} • ${remaining(f.expiresAt)}</div>
-   <div class="cardactions">
-    <button class="mini" onclick="viewFile('${f.id}')">عرض</button>
-    <button class="mini" onclick="shareFile('${f.id}')">مشاركة</button>
-    <button class="mini" onclick="renameFile('${f.id}')">تعديل</button>
-    <button class="mini danger" onclick="removeFile('${f.id}')">حذف</button>
-   </div>
-  </article>`
- }).join("");
-}
-window.viewFile=async id=>{
- const f=files.find(x=>x.id===id);if(!f)return;
- if(f.contentType?.startsWith("image/")||f.contentType?.startsWith("video/")||f.contentType?.startsWith("audio/")||f.contentType==="application/pdf"){
-  $("#modal").innerHTML=`<h3>${esc(f.name)}</h3><p>${fmtSize(f.size)} • ${remaining(f.expiresAt)}</p>
-   <div style="background:#f0f3ef;border-radius:16px;padding:8px;text-align:center;max-height:60vh;overflow:auto">${mediaHtml(f)}</div>
-   <div class="modal-actions"><a class="btn green" href="${esc(f.downloadURL)}" target="_blank" rel="noopener">فتح / تنزيل</a><button class="btn soft" onclick="closeModal()">إغلاق</button></div>`;
- }else{
-  $("#modal").innerHTML=`<h3>${esc(f.name)}</h3><p>هذا النوع لا يدعم المعاينة داخل وصلة، لكن يمكنك تنزيله مباشرة.</p><div class="modal-actions"><a class="btn green" href="${esc(f.downloadURL)}" target="_blank" rel="noopener">تنزيل الملف</a><button class="btn soft" onclick="closeModal()">إغلاق</button></div>`;
- }
- $("#modalBack").classList.remove("hidden")
-}
-function mediaHtml(f){
- if(f.contentType?.startsWith("image/"))return `<img src="${esc(f.downloadURL)}" style="max-width:100%;max-height:55vh;border-radius:12px">`;
- if(f.contentType?.startsWith("video/"))return `<video src="${esc(f.downloadURL)}" controls style="max-width:100%;max-height:55vh;border-radius:12px"></video>`;
- if(f.contentType?.startsWith("audio/"))return `<audio src="${esc(f.downloadURL)}" controls style="width:100%"></audio>`;
- if(f.contentType==="application/pdf")return `<iframe src="${esc(f.downloadURL)}" style="width:100%;height:55vh;border:0;border-radius:12px"></iframe>`;
- return "";
-}
-window.shareFile=async id=>{
- const f=files.find(x=>x.id===id);if(!f)return;
- const url=shareUrl(id);
- if(navigator.share){try{await navigator.share({title:`وصلة — ${f.name}`,text:"مشاركة ملف عبر وصلة",url})}catch{}}
- else{await navigator.clipboard.writeText(url);toast("تم نسخ الرابط")}
-}
-window.renameFile=async id=>{
- const f=files.find(x=>x.id===id);if(!f)return;
- const name=prompt("اكتب الاسم الجديد للملف:",f.name);
- if(name===null)return;
- const clean=name.trim().slice(0,180);
- if(!clean){toast("اسم الملف لا يمكن أن يكون فارغاً");return}
- try{await updateDoc(doc(db,"files",id),{name:clean});toast("تم تعديل اسم الملف")}
- catch(e){console.error(e);toast("تعذر تعديل اسم الملف")}
-}
-window.removeFile=async id=>{
- const f=files.find(x=>x.id===id);if(!f)return;
- if(!confirm(`حذف "${f.name}" نهائياً؟`))return;
- try{
-  if(f.storagePath)await deleteObject(ref(storage,f.storagePath)).catch(()=>{});
-  await deleteDoc(doc(db,"files",id));toast("تم حذف الملف");
- }catch(e){console.error(e);toast("تعذر حذف الملف")}
-}
-window.closeModal=()=>$("#modalBack").classList.add("hidden");
-window.showView=v=>{
- $("#homeView").classList.toggle("hidden",v!=="home");$("#mediaView").classList.toggle("hidden",v!=="media");
- $("#homeNav").classList.toggle("active",v==="home");$("#mediaNav").classList.toggle("active",v==="media");
- window.scrollTo({top:0,behavior:"smooth"});
-}
-window.openAccount=()=>{
- if(!currentUser)return;
- if(currentUser.isAnonymous)showAuthModal();else showAccountModal();
-}
-function showAccountModal(){
- $("#modal").innerHTML=`<h3>حسابي</h3><p>ملفاتك مرتبطة بهذا الحساب ويمكنك الوصول إلى مركز الملفات بعد تسجيل الدخول من أي جهاز.</p>
- <div class="modal-actions"><button class="btn danger" onclick="doLogout()">تسجيل الخروج</button><button class="btn soft" onclick="closeModal()">إغلاق</button></div>`;
- $("#modalBack").classList.remove("hidden")
-}
-window.doLogout=async()=>{await signOut(auth);closeModal();toast("تم تسجيل الخروج")}
-function showAuthModal(){
- $("#modal").innerHTML=`<h3>حفظ ملفاتك بين الأجهزة</h3><p>الحساب المؤقت مناسب للمشاركة السريعة من هذا الجهاز. أنشئ حساباً أو سجل دخولك للوصول إلى مركز الملفات من أجهزتك الأخرى.</p>
- <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="email" placeholder="name@example.com"></div>
- <div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="new-password" placeholder="••••••••"></div>
- <div class="modal-actions"><button class="btn green" onclick="authAction('signup')">إنشاء حساب</button><button class="btn soft" onclick="authAction('login')">تسجيل الدخول</button></div>
- <button class="btn" style="width:100%;margin-top:8px;background:transparent" onclick="closeModal()">إلغاء</button>`;
- $("#modalBack").classList.remove("hidden")
-}
-window.authAction=async mode=>{
- const email=$("#email").value.trim(),pass=$("#password").value;
- if(!email||pass.length<6){toast("أدخل بريداً صحيحاً وكلمة مرور من 6 أحرف على الأقل");return}
- try{
-  if(mode==="signup"){
-    const credential=EmailAuthProvider.credential(email,pass);
-    if(auth.currentUser?.isAnonymous) await linkWithCredential(auth.currentUser,credential);
-    else await createUserWithEmailAndPassword(auth,email,pass);
-  }else{
-    await signInWithEmailAndPassword(auth,email,pass);
+
+  const response = await fetch("/api/config.js", {
+    headers:{
+      accept:"application/json"
+    }
+  });
+
+  if(!response.ok){
+    throw new Error("تعذر تحميل إعدادات Firebase");
   }
-  closeModal();toast(mode==="signup"?"تم إنشاء الحساب وحفظ ملفات هذا الجهاز":"تم تسجيل الدخول");
- }catch(e){toast(e.code?.includes("email-already")||e.code?.includes("credential-already-in-use")?"البريد مستخدم مسبقاً":e.code?.includes("invalid-credential")?"بيانات الدخول غير صحيحة":"تعذر تنفيذ العملية")}
+
+  const config = await response.json();
+
+  if(!config.apiKey || !config.projectId){
+    throw new Error("إعدادات Firebase غير مكتملة");
+  }
+
+  if(!config.appId){
+    throw new Error("Firebase App ID غير موجود");
+  }
+
+  if(!config.databaseURL){
+    throw new Error(
+      "Realtime Database URL غير موجود في إعدادات Firebase"
+    );
+  }
+
+  app = initializeApp({
+
+    apiKey: config.apiKey,
+
+    authDomain:
+      config.authDomain ||
+      `${config.projectId}.firebaseapp.com`,
+
+    projectId: config.projectId,
+
+    databaseURL: config.databaseURL,
+
+    messagingSenderId:
+      config.messagingSenderId || "",
+
+    appId: config.appId
+
+  });
+
+  auth = getAuth(app);
+
+  db = getDatabase(app);
+
 }
 
-async function uploadFiles(list){
- if(!currentUser){toast("جارٍ تجهيز الحساب");return}
- for(const file of [...list]){
-  if(file.size>MAX){toast(`${file.name}: الملف أكبر من 100 MB`);continue}
-  await uploadOne(file);
- }
-}
-async function uploadOne(file){
- const progress=$("#uploadProgress"),bar=progress.querySelector("span");progress.classList.remove("hidden");bar.style.width="0%";
- const safeName=file.name.replace(/[^\w\u0600-\u06FF.\- ()[\]]/g,"_").slice(0,180)||"file";
- const id=`${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
- const storagePath=`uploads/${currentUser.uid}/${id}_${safeName}`;
- const storageRef=ref(storage,storagePath);
- try{
-  const task=uploadBytesResumable(storageRef,file,{contentType:file.type||"application/octet-stream",customMetadata:{originalName:file.name}});
-  const url=await new Promise((resolve,reject)=>{task.on("state_changed",s=>bar.style.width=Math.round(s.bytesTransferred/s.totalBytes*100)+"%",reject,async()=>resolve(await getDownloadURL(task.snapshot.ref)))});
-  const expiresAt=Timestamp.fromMillis(Date.now()+24*60*60*1000);
-  const docRef=await addDoc(collection(db,"files"),{ownerId:currentUser.uid,name:file.name,contentType:file.type||"application/octet-stream",size:file.size,storagePath,downloadURL:url,createdAt:serverTimestamp(),expiresAt});
-  renderResult({id:docRef.id,name:file.name,size:file.size,contentType:file.type,downloadURL:url,expiresAt});
-  toast("تم رفع الملف بنجاح");
- }catch(e){console.error(e);toast("تعذر رفع الملف")}
- finally{setTimeout(()=>progress.classList.add("hidden"),600)}
-}
-function renderResult(f){
- const url=shareUrl(f.id);
- $("#result").classList.remove("hidden");
- $("#result").innerHTML=`<div class="result-grid">
-  <div><div class="fileline"><div class="fileicon">${icon(f.contentType)}</div><div class="filemeta"><strong>${esc(f.name)}</strong><small>${fmtSize(f.size)} • ${remaining(f.expiresAt)}</small></div></div>
-   <div class="share-actions">
-    <button class="btn green" onclick="nativeShare('${esc(url)}','${esc(f.name)}')">مشاركة</button>
-    <button class="btn soft" onclick="copyLink('${esc(url)}')">نسخ الرابط</button>
-    <a class="btn soft" href="${esc(url)}" target="_blank" rel="noopener">فتح</a>
-   </div></div>
-  <div class="qrbox"><img src="${qrUrl(url)}" alt="QR"></div>
- </div>`;
-}
-window.copyLink=async u=>{try{await navigator.clipboard.writeText(u);toast("تم نسخ الرابط")}catch{prompt("انسخ الرابط:",u)}}
-window.nativeShare=async(u,name)=>{
- if(navigator.share){try{await navigator.share({title:`وصلة — ${name}`,text:"مشاركة ملف",url:u})}catch{}}
- else copyLink(u)
-}
-async function checkShare(){
- const p=new URLSearchParams(location.search),id=p.get("s");if(!id)return;
- try{
-  const snap=await getDoc(doc(db,"files",id));
-  if(!snap.exists()){showShareModal("الرابط غير متاح","قد يكون الملف حُذف أو انتهت صلاحيته.");return}
-  const f={id:snap.id,...snap.data()};
-  if(f.expiresAt&&expiryMs(f.expiresAt)<=Date.now()){showShareModal("انتهت صلاحية الملف","هذا الملف كان متاحاً لمدة 24 ساعة فقط.");return}
-  showShareModal(f.name,`<div class="fileline"><div class="fileicon">${icon(f.contentType)}</div><div class="filemeta"><strong>${esc(f.name)}</strong><small>${fmtSize(f.size)} • ${remaining(f.expiresAt)}</small></div></div>
-  <div style="margin-top:15px;background:#f1f5f1;border-radius:16px;padding:8px;text-align:center">${mediaHtml(f)}</div>
-  <div class="modal-actions"><a class="btn green" href="${esc(f.downloadURL)}" target="_blank" rel="noopener">فتح / تنزيل</a><button class="btn soft" onclick="closeModal();history.replaceState({},'',location.pathname)">إغلاق</button></div>`);
- }catch(e){console.error(e);showShareModal("تعذر فتح الملف","تحقق من إعدادات Firebase Security Rules.")}
-}
-function showShareModal(title,body){
- $("#modal").innerHTML=`<h3>${esc(title)}</h3><div style="margin-top:10px">${body}</div>`;
- $("#modalBack").classList.remove("hidden")
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+async function ensureAnonymousAuth(){
+
+  if(auth.currentUser){
+    return auth.currentUser;
+  }
+
+  await signInAnonymously(auth);
+
+  return auth.currentUser;
+
 }
 
-$("#fileInput").addEventListener("change",e=>uploadFiles(e.target.files));
-const dz=$("#dropZone");
-["dragenter","dragover"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("drag")}));
-["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("drag")}));
-dz.addEventListener("drop",e=>uploadFiles(e.dataTransfer.files));
-$("#searchInput").addEventListener("input",renderFiles);
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.filter;renderFiles()}));
-$("#modalBack").addEventListener("click",e=>{if(e.target.id==="modalBack")closeModal()});
-setInterval(()=>renderFiles(),60000);
+
+function updateAccountUI(){
+
+  const button = $("accountBtn");
+
+  if(!currentUser){
+
+    button.textContent = "تسجيل الدخول";
+
+    $("accountInfo").textContent =
+      "لم يتم تسجيل الدخول.";
+
+    return;
+
+  }
+
+  if(currentUser.isAnonymous){
+
+    button.textContent = "حساب مؤقت";
+
+    $("accountInfo").innerHTML =
+      "أنت تستخدم حساباً مؤقتاً لهذا الجهاز. " +
+      "أنشئ حساباً بالبريد الإلكتروني للوصول إلى ملفاتك من أجهزة أخرى.";
+
+  }else{
+
+    button.textContent = "حسابي";
+
+    $("accountInfo").innerHTML =
+      `الحساب الحالي: <strong>${escapeHtml(currentUser.email)}</strong>`;
+
+  }
+
+}
+
+
+function showAuthModal(){
+
+  $("modal").innerHTML = `
+
+    <h3>حفظ ملفاتك بين الأجهزة</h3>
+
+    <p>
+      يمكنك استخدام الحساب المؤقت للمشاركة السريعة،
+      أو إنشاء حساب بالبريد الإلكتروني حتى تتمكن من الوصول
+      إلى ملفاتك من أجهزتك الأخرى.
+    </p>
+
+    <div class="field">
+
+      <label>البريد الإلكتروني</label>
+
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        placeholder="name@example.com"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>كلمة المرور</label>
+
+      <input
+        id="password"
+        type="password"
+        autocomplete="new-password"
+        placeholder="••••••••"
+      >
+
+    </div>
+
+    <div class="modalActions">
+
+      <button
+        class="btn primary"
+        onclick="authAction('signup')"
+      >
+        إنشاء حساب
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="authAction('login')"
+      >
+        تسجيل الدخول
+      </button>
+
+    </div>
+
+    <button
+      class="btn ghost"
+      style="width:100%;margin-top:8px"
+      onclick="closeModal()"
+    >
+      إلغاء
+    </button>
+
+  `;
+
+  $("modalBack").classList.remove("hidden");
+
+}
+
+
+function showAccountModal(){
+
+  $("modal").innerHTML = `
+
+    <h3>حسابي</h3>
+
+    <p>
+      ملفاتك مرتبطة بحسابك ويمكن الوصول إليها
+      من أي جهاز بعد تسجيل الدخول.
+    </p>
+
+    <div class="accountInfo">
+      ${escapeHtml(currentUser.email)}
+    </div>
+
+    <div class="modalActions">
+
+      <button
+        class="btn danger"
+        onclick="logout()"
+      >
+        تسجيل الخروج
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="closeModal()"
+      >
+        إغلاق
+      </button>
+
+    </div>
+
+  `;
+
+  $("modalBack").classList.remove("hidden");
+
+}
+
+
+window.openAccount = () => {
+
+  if(!currentUser){
+
+    showAuthModal();
+
+    return;
+
+  }
+
+  if(currentUser.isAnonymous){
+
+    showAuthModal();
+
+  }else{
+
+    showAccountModal();
+
+  }
+
+};
+
+
+window.authAction = async mode => {
+
+  const email = $("email").value.trim();
+
+  const password = $("password").value;
+
+  if(!email || password.length < 6){
+
+    toast("أدخل بريداً صحيحاً وكلمة مرور من 6 أحرف على الأقل");
+
+    return;
+
+  }
+
+  try{
+
+    if(mode === "signup"){
+
+      const credential =
+        EmailAuthProvider.credential(email,password);
+
+      if(auth.currentUser?.isAnonymous){
+
+        await linkWithCredential(
+          auth.currentUser,
+          credential
+        );
+
+      }else{
+
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      }
+
+      toast("تم إنشاء الحساب بنجاح");
+
+    }else{
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      toast("تم تسجيل الدخول");
+
+    }
+
+    closeModal();
+
+  }catch(error){
+
+    console.error(error);
+
+    if(
+      error.code?.includes("email-already") ||
+      error.code?.includes("credential-already")
+    ){
+
+      toast("هذا البريد مستخدم مسبقاً");
+
+    }else if(
+      error.code?.includes("invalid-credential") ||
+      error.code?.includes("wrong-password")
+    ){
+
+      toast("بيانات الدخول غير صحيحة");
+
+    }else{
+
+      toast("تعذر تنفيذ العملية");
+
+    }
+
+  }
+
+};
+
+
+window.logout = async () => {
+
+  try{
+
+    await signOut(auth);
+
+    closeModal();
+
+    toast("تم تسجيل الخروج");
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+};
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function hideAllViews(){
+
+  $("homeSection").style.display = "none";
+
+  $("centerSection").classList.remove("show");
+
+  $("sharedSection").classList.remove("show");
+
+}
+
+
+window.showHome = () => {
+
+  hideAllViews();
+
+  $("homeSection").style.display = "block";
+
+  $("homeBtn").classList.add("active");
+
+  $("centerBtn").classList.remove("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+};
+
+
+window.showCenter = () => {
+
+  hideAllViews();
+
+  $("centerSection").classList.add("show");
+
+  $("homeBtn").classList.remove("active");
+
+  $("centerBtn").classList.add("active");
+
+  renderFiles();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+};
+
+
+function triggerUpload(){
+
+  $("fileInput").click();
+
+}
+
+window.triggerUpload = triggerUpload;
+
+
+/* =========================================================
+   REALTIME DATABASE
+========================================================= */
+
+function subscribeFiles(){
+
+  if(unsubscribeFiles){
+    unsubscribeFiles();
+    unsubscribeFiles = null;
+  }
+
+  if(!currentUser){
+    return;
+  }
+
+  const filesRef =
+    ref(db, `files/${currentUser.uid}`);
+
+  unsubscribeFiles = onValue(
+    filesRef,
+    snapshot => {
+
+      const data = snapshot.val() || {};
+
+      files = Object.entries(data)
+        .map(([id,value]) => ({
+          id,
+          ...value
+        }))
+        .sort(
+          (a,b) =>
+            Number(b.createdAt || 0) -
+            Number(a.createdAt || 0)
+        );
+
+      renderFiles();
+
+    },
+    error => {
+
+      console.error(error);
+
+      toast(
+        "تعذر تحميل مركز الملفات. تحقق من Realtime Database Rules."
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FILE CENTER
+========================================================= */
+
+function isExpired(file){
+
+  return Number(file.expiresAt || 0) <= Date.now();
+
+}
+
+
+function matchesFilter(file){
+
+  const type = file.contentType || "";
+
+  if(currentFilter === "all"){
+    return true;
+  }
+
+  if(currentFilter === "image"){
+    return type.startsWith("image/");
+  }
+
+  if(currentFilter === "video"){
+    return type.startsWith("video/");
+  }
+
+  if(currentFilter === "application/pdf"){
+    return type === "application/pdf";
+  }
+
+  if(currentFilter === "other"){
+
+    return (
+      !type.startsWith("image/") &&
+      !type.startsWith("video/") &&
+      type !== "application/pdf"
+    );
+
+  }
+
+  return true;
+
+}
+
+
+function renderFiles(){
+
+  const grid = $("fileGrid");
+
+  if(!grid){
+    return;
+  }
+
+  const search =
+    $("searchInput").value
+      .trim()
+      .toLowerCase();
+
+  const filtered = files.filter(file => {
+
+    const name =
+      String(file.name || "").toLowerCase();
+
+    return (
+      matchesFilter(file) &&
+      name.includes(search)
+    );
+
+  });
+
+  if(!filtered.length){
+
+    grid.innerHTML = `
+
+      <div class="empty">
+
+        <div style="font-size:40px;margin-bottom:8px">
+          □
+        </div>
+
+        لا توجد ملفات مطابقة حالياً
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  grid.innerHTML = filtered.map(file => {
+
+    let preview = icon(file.contentType);
+
+    if(
+      file.contentType?.startsWith("image/") &&
+      file.data
+    ){
+
+      preview =
+        `<img src="${escapeHtml(file.data)}" alt="">`;
+
+    }
+
+    return `
+
+      <article class="fileTile">
+
+        <div class="thumb">
+          ${preview}
+        </div>
+
+        <strong title="${escapeHtml(file.name)}">
+          ${escapeHtml(file.name)}
+        </strong>
+
+        <small>
+          ${fmtSize(file.size)}
+          •
+          ${isExpired(file) ? "منتهي" : remaining(file.expiresAt)}
+        </small>
+
+        <div class="tileActions">
+
+          <button
+            class="mini"
+            onclick="viewFile('${file.id}')"
+          >
+            عرض
+          </button>
+
+          <button
+            class="mini"
+            onclick="shareFile('${file.id}')"
+          >
+            مشاركة
+          </button>
+
+          <button
+            class="mini"
+            onclick="renameFile('${file.id}')"
+          >
+            تعديل
+          </button>
+
+          <button
+            class="mini danger"
+            onclick="deleteFile('${file.id}')"
+          >
+            حذف
+          </button>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }).join("");
+
+}
+
+
+function mediaHtml(file){
+
+  if(!file.data){
+    return "";
+  }
+
+  if(file.contentType?.startsWith("image/")){
+
+    return `
+      <img
+        src="${escapeHtml(file.data)}"
+        alt="${escapeHtml(file.name)}"
+      >
+    `;
+
+  }
+
+  if(file.contentType?.startsWith("video/")){
+
+    return `
+      <video
+        src="${escapeHtml(file.data)}"
+        controls
+      ></video>
+    `;
+
+  }
+
+  if(file.contentType?.startsWith("audio/")){
+
+    return `
+      <audio
+        src="${escapeHtml(file.data)}"
+        controls
+      ></audio>
+    `;
+
+  }
+
+  if(file.contentType === "application/pdf"){
+
+    return `
+      <iframe
+        src="${escapeHtml(file.data)}"
+      ></iframe>
+    `;
+
+  }
+
+  return "";
+
+}
+
+
+window.viewFile = id => {
+
+  const file =
+    files.find(item => item.id === id);
+
+  if(!file){
+    return;
+  }
+
+  const preview = mediaHtml(file);
+
+  if(preview){
+
+    $("modal").innerHTML = `
+
+      <h3>
+        ${escapeHtml(file.name)}
+      </h3>
+
+      <p>
+        ${fmtSize(file.size)}
+        •
+        ${isExpired(file) ? "الرابط منتهي" : remaining(file.expiresAt)}
+      </p>
+
+      <div class="preview">
+        ${preview}
+      </div>
+
+      <div class="modalActions">
+
+        <button
+          class="btn primary"
+          onclick="downloadFile('${file.id}')"
+        >
+          تحميل
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="closeModal()"
+        >
+          إغلاق
+        </button>
+
+      </div>
+
+    `;
+
+  }else{
+
+    $("modal").innerHTML = `
+
+      <h3>
+        ${escapeHtml(file.name)}
+      </h3>
+
+      <p>
+        هذا النوع لا يدعم المعاينة داخل وصلة.
+      </p>
+
+      <div class="modalActions">
+
+        <button
+          class="btn primary"
+          onclick="downloadFile('${file.id}')"
+        >
+          تحميل الملف
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="closeModal()"
+        >
+          إغلاق
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  $("modalBack").classList.remove("hidden");
+
+};
+
+
+window.downloadFile = id => {
+
+  const file =
+    files.find(item => item.id === id);
+
+  if(!file?.data){
+    toast("بيانات الملف غير موجودة");
+    return;
+  }
+
+  const link =
+    document.createElement("a");
+
+  link.href = file.data;
+
+  link.download = file.name || "file";
+
+  link.target = "_blank";
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+};
+
+
+window.shareFile = async id => {
+
+  const file =
+    files.find(item => item.id === id);
+
+  if(!file){
+    return;
+  }
+
+  const url = shareUrl(file.id);
+
+  if(navigator.share){
+
+    try{
+
+      await navigator.share({
+        title:`وصلة — ${file.name}`,
+        text:"مشاركة ملف عبر وصلة",
+        url
+      });
+
+    }catch{}
+
+  }else{
+
+    await navigator.clipboard.writeText(url);
+
+    toast("تم نسخ الرابط");
+
+  }
+
+};
+
+
+window.renameFile = async id => {
+
+  const file =
+    files.find(item => item.id === id);
+
+  if(!file){
+    return;
+  }
+
+  const name =
+    prompt(
+      "اكتب الاسم الجديد للملف:",
+      file.name
+    );
+
+  if(name === null){
+    return;
+  }
+
+  const clean =
+    name.trim().slice(0,180);
+
+  if(!clean){
+
+    toast("اسم الملف لا يمكن أن يكون فارغاً");
+
+    return;
+
+  }
+
+  try{
+
+    await update(
+      ref(db, `files/${currentUser.uid}/${id}`),
+      {
+        name:clean
+      }
+    );
+
+    toast("تم تعديل اسم الملف");
+
+  }catch(error){
+
+    console.error(error);
+
+    toast("تعذر تعديل اسم الملف");
+
+  }
+
+};
+
+
+window.deleteFile = async id => {
+
+  const file =
+    files.find(item => item.id === id);
+
+  if(!file){
+    return;
+  }
+
+  if(
+    !confirm(
+      `حذف "${file.name}" نهائياً؟`
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    await remove(
+      ref(db, `files/${currentUser.uid}/${id}`)
+    );
+
+    toast("تم حذف الملف");
+
+  }catch(error){
+
+    console.error(error);
+
+    toast("تعذر حذف الملف");
+
+  }
+
+};
+
+
+/* =========================================================
+   BASE64 FILE READER
+========================================================= */
+
+function fileToBase64(file){
+
+  return new Promise((resolve,reject) => {
+
+    const reader =
+      new FileReader();
+
+    reader.onload = () =>
+      resolve(reader.result);
+
+    reader.onerror = () =>
+      reject(
+        new Error("تعذر قراءة الملف")
+      );
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+async function uploadFile(file){
+
+  if(!file){
+    return;
+  }
+
+  if(file.size > MAX_FILE_SIZE){
+
+    toast(
+      "الحد الأقصى للملف هو 5 MB"
+    );
+
+    return;
+
+  }
+
+  $("result").classList.remove("show");
+
+  $("status").classList.add("show");
+
+  $("bar").style.width = "0%";
+
+  $("statusText").textContent =
+    "جاري تجهيز الملف…";
+
+  $("statusSmall").textContent =
+    "0%";
+
+  try{
+
+    const user =
+      await ensureAnonymousAuth();
+
+    const data =
+      await fileToBase64(file);
+
+    $("statusText").textContent =
+      "جاري حفظ الملف في قاعدة البيانات…";
+
+    $("bar").style.width = "60%";
+
+    $("statusSmall").textContent =
+      "60%";
+
+
+    const id =
+      createId();
+
+    const createdAt =
+      Date.now();
+
+    const expires =
+      createdAt + LINK_LIFETIME;
+
+
+    const fileData = {
+
+      name:
+        file.name.slice(0,180),
+
+      contentType:
+        file.type ||
+        "application/octet-stream",
+
+      size:
+        file.size,
+
+      data,
+
+      ownerId:
+        user.uid,
+
+      createdAt,
+
+      expiresAt:
+        expires
+
+    };
+
+
+    await set(
+      ref(db, `files/${user.uid}/${id}`),
+      fileData
+    );
+
+
+    $("bar").style.width = "100%";
+
+    $("statusSmall").textContent =
+      "100%";
+
+    $("statusText").textContent =
+      "تم حفظ الملف";
+
+
+    const url =
+      shareUrl(id);
+
+
+    $("shareUrl").value =
+      url;
+
+    $("result").classList.add("show");
+
+    await makeQR(url);
+
+    $("status").classList.remove("show");
+
+    toast(
+      "تم رفع الملف بنجاح"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    $("status").classList.remove("show");
+
+    toast(
+      error?.message ||
+      "تعذر رفع الملف"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   QR
+========================================================= */
+
+async function makeQR(text){
+
+  try{
+
+    if(!window.QRCode){
+
+      const script =
+        document.createElement("script");
+
+      script.src =
+        "https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js";
+
+      document.head.appendChild(script);
+
+      await new Promise(
+        (resolve,reject) => {
+
+          script.onload = resolve;
+
+          script.onerror = reject;
+
+        }
+      );
+
+    }
+
+    const canvas =
+      document.createElement("canvas");
+
+    await window.QRCode.toCanvas(
+      canvas,
+      text,
+      {
+        width:180,
+        margin:1,
+        errorCorrectionLevel:"M"
+      }
+    );
+
+    $("qr").replaceChildren(canvas);
+
+  }catch(error){
+
+    console.error(error);
+
+    $("qr").innerHTML =
+      "<small>تعذر إنشاء QR</small>";
+
+  }
+
+}
+
+
+/* =========================================================
+   SHARED FILE
+========================================================= */
+
+async function loadSharedFile(id){
+
+  hideAllViews();
+
+  $("sharedSection").classList.add("show");
+
+  $("viewTitle").textContent =
+    "جاري تحميل الملف…";
+
+  try{
+
+    /*
+      We don't know the owner UID from the URL.
+
+      Therefore we use a public "shares" index
+      in Realtime Database.
+
+      The upload process creates BOTH:
+
+      files/{uid}/{id}
+
+      and
+
+      shares/{id}
+
+      The actual Base64 file is stored only once
+      in files/{uid}/{id}.
+    */
+
+    const shareSnapshot =
+      await get(
+        ref(db, `shares/${id}`)
+      );
+
+
+    if(!shareSnapshot.exists()){
+
+      throw new Error("not-found");
+
+    }
+
+
+    const share =
+      shareSnapshot.val();
+
+
+    const expiresAt =
+      Number(share.expiresAt || 0);
+
+
+    if(
+      expiresAt &&
+      expiresAt <= Date.now()
+    ){
+
+      throw new Error("expired");
+
+    }
+
+
+    const ownerUid =
+      share.ownerId;
+
+
+    const fileSnapshot =
+      await get(
+        ref(
+          db,
+          `files/${ownerUid}/${id}`
+        )
+      );
+
+
+    if(!fileSnapshot.exists()){
+
+      throw new Error("not-found");
+
+    }
+
+
+    const file =
+      fileSnapshot.val();
+
+
+    $("viewTitle").textContent =
+      "جاهز للفتح";
+
+
+    $("viewName").textContent =
+      file.name;
+
+
+    $("viewSize").textContent =
+      `${fmtSize(file.size)} • ${file.contentType}`;
+
+
+    $("viewIcon").textContent =
+      icon(file.contentType);
+
+
+    $("viewNotice").textContent =
+      `ينتهي رابط المشاركة في ${
+        new Date(expiresAt).toLocaleString("ar-SA")
+      }. يمكنك فتح الملف أو تحميله الآن.`;
+
+
+    $("downloadBtn").style.display =
+      "inline-block";
+
+
+    $("downloadBtn").onclick = () => {
+
+      const link =
+        document.createElement("a");
+
+      link.href =
+        file.data;
+
+      link.download =
+        file.name;
+
+      link.target =
+        "_blank";
+
+      document.body.appendChild(link);
+
+      link.click();
+
+      link.remove();
+
+    };
+
+
+    const preview =
+      mediaHtml(file);
+
+
+    if(preview){
+
+      $("sharedSection").insertAdjacentHTML(
+        "beforeend",
+        `
+          <div
+            id="sharedPreview"
+            class="preview"
+            style="margin-top:18px"
+          >
+            ${preview}
+          </div>
+        `
+      );
+
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    $("viewTitle").textContent =
+      error.message === "expired"
+        ? "انتهت صلاحية الرابط"
+        : "الملف غير موجود";
+
+
+    $("viewName").textContent =
+      "قد يكون الرابط منتهي الصلاحية أو أن الملف غير موجود.";
+
+
+    $("viewSize").textContent =
+      "";
+
+
+    $("viewNotice").textContent =
+      "الملف نفسه لا يتم حذفه تلقائياً من قاعدة البيانات. يمكن لمالك الحساب حذفه يدوياً من مركز الملفات.";
+
+
+    $("downloadBtn").style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+window.closeModal = () => {
+
+  $("modalBack")
+    .classList.add("hidden");
+
+};
+
+
+$("modalBack").addEventListener(
+  "click",
+  event => {
+
+    if(event.target.id === "modalBack"){
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+$("fileInput").addEventListener(
+  "change",
+  event => {
+
+    uploadFile(
+      event.target.files[0]
+    );
+
+    event.target.value = "";
+
+  }
+);
+
+
+const drop =
+  $("drop");
+
+
+["dragenter","dragover"].forEach(
+  eventName => {
+
+    drop.addEventListener(
+      eventName,
+      event => {
+
+        event.preventDefault();
+
+        drop.classList.add("drag");
+
+      }
+    );
+
+  }
+);
+
+
+["dragleave","drop"].forEach(
+  eventName => {
+
+    drop.addEventListener(
+      eventName,
+      event => {
+
+        event.preventDefault();
+
+        drop.classList.remove("drag");
+
+      }
+    );
+
+  }
+);
+
+
+drop.addEventListener(
+  "drop",
+  event => {
+
+    uploadFile(
+      event.dataTransfer.files[0]
+    );
+
+  }
+);
+
+
+$("searchInput").addEventListener(
+  "input",
+  renderFiles
+);
+
+
+document.querySelectorAll(".tab")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(".tab")
+          .forEach(
+            item =>
+              item.classList.remove("active")
+          );
+
+        button.classList.add("active");
+
+        currentFilter =
+          button.dataset.filter;
+
+        renderFiles();
+
+      }
+    );
+
+  });
+
+
+$("copyBtn").onclick =
+  async () => {
+
+    try{
+
+      await navigator.clipboard.writeText(
+        $("shareUrl").value
+      );
+
+      toast("تم نسخ الرابط");
+
+    }catch{
+
+      $("shareUrl").select();
+
+      document.execCommand("copy");
+
+      toast("تم نسخ الرابط");
+
+    }
+
+  };
+
+
+$("openBtn").onclick =
+  () => {
+
+    location.href =
+      $("shareUrl").value;
+
+  };
+
+
+$("shareBtn").onclick =
+  async () => {
+
+    const url =
+      $("shareUrl").value;
+
+
+    if(navigator.share){
+
+      try{
+
+        await navigator.share({
+          title:"ملف عبر وصلة",
+          text:"افتح الملف من هذا الرابط",
+          url
+        });
+
+      }catch{}
+
+    }else{
+
+      await navigator.clipboard.writeText(url);
+
+      toast(
+        "المتصفح لا يدعم المشاركة — تم نسخ الرابط"
+      );
+
+    }
+
+  };
+
+
+/* =========================================================
+   BOOT
+========================================================= */
+
+async function boot(){
+
+  try{
+
+    await loadConfig();
+
+
+    onAuthStateChanged(
+      auth,
+      user => {
+
+        currentUser = user;
+
+        updateAccountUI();
+
+        if(user){
+
+          subscribeFiles();
+
+        }
+
+      }
+    );
+
+
+    await ensureAnonymousAuth();
+
+
+    const sharedId =
+      new URLSearchParams(
+        location.search
+      ).get("s");
+
+
+    if(sharedId){
+
+      await loadSharedFile(
+        sharedId
+      );
+
+    }else{
+
+      showHome();
+
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      error.message ||
+      "تعذر الاتصال بـ Firebase"
+    );
+
+  }
+
+}
+
+
 boot();
+
 </script>
+
 </body>
 </html>
