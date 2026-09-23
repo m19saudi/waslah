@@ -2342,10 +2342,18 @@ async function uploadFile(file){
     };
 
 
-    await set(
-      ref(db, `files/${user.uid}/${id}`),
-      fileData
-    );
+    await update(
+  ref(db),
+  {
+    [`files/${user.uid}/${id}`]: fileData,
+
+    [`shares/${id}`]: {
+      ownerId: user.uid,
+      createdAt,
+      expiresAt: expires
+    }
+  }
+);
 
 
     $("bar").style.width = "100%";
@@ -2399,6 +2407,8 @@ async function makeQR(text){
 
   try{
 
+    $("qr").innerHTML = "";
+
     if(!window.QRCode){
 
       const script =
@@ -2407,46 +2417,89 @@ async function makeQR(text){
       script.src =
         "https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js";
 
+      script.async = true;
+
       document.head.appendChild(script);
 
-      await new Promise(
-        (resolve,reject) => {
+      await new Promise((resolve,reject) => {
 
-          script.onload = resolve;
+        script.onload = () => {
 
-          script.onerror = reject;
+          if(window.QRCode){
+            resolve();
+          }else{
+            reject(
+              new Error("QR library loaded but QRCode is unavailable")
+            );
+          }
 
-        }
+        };
+
+        script.onerror = () => {
+
+          reject(
+            new Error("تعذر تحميل مكتبة QR")
+          );
+
+        };
+
+      });
+
+    }
+
+
+    if(
+      !window.QRCode ||
+      typeof window.QRCode.toCanvas !== "function"
+    ){
+
+      throw new Error(
+        "QRCode.toCanvas غير متاح"
       );
 
     }
 
+
     const canvas =
       document.createElement("canvas");
 
+
     await window.QRCode.toCanvas(
       canvas,
-      text,
+      String(text),
       {
         width:180,
-        margin:1,
+        margin:2,
         errorCorrectionLevel:"M"
       }
     );
 
+
     $("qr").replaceChildren(canvas);
+
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "QR ERROR:",
+      error
+    );
 
-    $("qr").innerHTML =
-      "<small>تعذر إنشاء QR</small>";
+
+    $("qr").innerHTML = `
+      <div style="
+        padding:20px;
+        color:#a53b3b;
+        font-size:12px;
+        line-height:1.8;
+      ">
+        تعذر إنشاء رمز QR
+      </div>
+    `;
 
   }
 
 }
-
 
 /* =========================================================
    SHARED FILE
