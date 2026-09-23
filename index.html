@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#075743">
 <meta name="description" content="وصلة — مشاركة الملفات بين أجهزتك بسرعة وأمان">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -2403,88 +2404,31 @@ async function uploadFile(file){
    QR
 ========================================================= */
 
-async function makeQR(text){
-
+function makeQR(text){
   try{
+    const qrBox = $("qr");
 
-    $("qr").innerHTML = "";
-
-    if(!window.QRCode){
-
-      const script =
-        document.createElement("script");
-
-      script.src =
-        "https://unpkg.com/qrcode@1.5.4/build/qrcode.min.js";
-
-      script.async = true;
-
-      document.head.appendChild(script);
-
-      await new Promise((resolve,reject) => {
-
-        script.onload = () => {
-
-          if(window.QRCode){
-            resolve();
-          }else{
-            reject(
-              new Error("QR library loaded but QRCode is unavailable")
-            );
-          }
-
-        };
-
-        script.onerror = () => {
-
-          reject(
-            new Error("تعذر تحميل مكتبة QR")
-          );
-
-        };
-
-      });
-
+    if(!qrBox){
+      throw new Error("QR container not found");
     }
 
-
-    if(
-      !window.QRCode ||
-      typeof window.QRCode.toCanvas !== "function"
-    ){
-
-      throw new Error(
-        "QRCode.toCanvas غير متاح"
-      );
-
+    if(typeof QRCode === "undefined"){
+      throw new Error("QRCode library is not loaded");
     }
 
+    qrBox.innerHTML = "";
 
-    const canvas =
-      document.createElement("canvas");
-
-
-    await window.QRCode.toCanvas(
-      canvas,
-      String(text),
-      {
-        width:180,
-        margin:2,
-        errorCorrectionLevel:"M"
-      }
-    );
-
-
-    $("qr").replaceChildren(canvas);
-
+    new QRCode(qrBox, {
+      text: String(text),
+      width: 180,
+      height: 180,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
 
   }catch(error){
-
-    console.error(
-      "QR ERROR:",
-      error
-    );
-
+    console.error("QR ERROR:", error);
 
     $("qr").innerHTML = `
       <div style="
@@ -2496,9 +2440,7 @@ async function makeQR(text){
         تعذر إنشاء رمز QR
       </div>
     `;
-
   }
-
 }
 
 /* =========================================================
